@@ -101,18 +101,19 @@ suppresses the plugin's version. Two practical consequences:
 
 ```bash
 # From a local directory — registers the directory as a skill source
-copilot plugin install --skill ./downloaded-skill
+copilot skill add ./downloaded-skill
 
 # From a file or URL — copies the skill into your personal skills directory
-copilot plugin install --skill https://example.com/skill.md
+copilot skill add https://example.com/skill.md
 
 # Scope a file or URL install to the current repository instead of your user account
-copilot plugin install --skill ./skill.md --scope project
+copilot skill add ./skill.md --project
 ```
 
 Installing a **directory** registers it as a custom skill source in place. Installing a
-**file or URL** copies the content into `~/.copilot/skills/` (or `.github/skills/` with
-`--scope project`).
+**file or URL** materializes the content into `~/.copilot/skills/<name>/SKILL.md` (or
+`.github/skills/` with `--project`). The name comes from the frontmatter `name` field,
+falling back to one inferred from the file or URL.
 
 Alternatively, copy the skill directory into `.github/skills/` or `~/.copilot/skills/`
 yourself and run `/skills reload`.
@@ -129,7 +130,7 @@ Review a third-party skill before installing it, especially its bundled scripts 
 | Enable / disable | `/skills` then toggle | `copilot plugins enable NAME --skill` |
 | Add a source directory | `/skills add` | `copilot skill add DIR` |
 | Reload after editing | `/skills reload` | restart the session |
-| Remove | — | `copilot plugins remove NAME --skill` |
+| Remove | — | `copilot skill remove NAME` |
 
 The `copilot plugins` (plural) command family is gated and prints *"The plugins command is
 not available"* in some builds. The singular `copilot plugin list` and `copilot skill list`

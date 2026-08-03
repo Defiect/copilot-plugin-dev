@@ -8,8 +8,10 @@ This plugin makes an agent self-sufficient at plugin authoring. It documents the
 
 ```bash
 copilot plugin marketplace add Defiect/copilot-plugin-dev
-copilot plugin install plugin-development
+copilot plugin install plugin-development@copilot-plugin-dev
 ```
+
+The `@marketplace` suffix is required; a bare plugin name fails with `Invalid plugin spec`.
 
 Or run it straight from a local checkout without installing:
 
@@ -100,7 +102,7 @@ copilot --plugin-dir ./plugins/plugin-development
 
 Inside the session, `/skills list` and `/agent` show what loaded. (`copilot skill list` does not report `--plugin-dir` skills, though they work.)
 
-If you install instead, Copilot CLI caches plugin contents at install time, so **reinstall after every edit** — reloading skills alone will not pick up manifest or new-file changes:
+If you install instead, Copilot CLI caches plugin contents at install time, so **reinstall after every edit** — reloading skills alone will not pick up manifest or new-file changes. Local-path installs also print a deprecation warning, and installing the same plugin from two sources leaves duplicate entries in `copilot plugin list` whose skills are silently deduplicated:
 
 ```bash
 copilot plugin install ./plugins/plugin-development
