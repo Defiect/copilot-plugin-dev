@@ -59,7 +59,7 @@ Use this layout when one team publishes several related plugins. This repository
 same pattern.
 
 ```text
-copilot-dev-marketplace/
+copilot-plugin-dev/
 ├── .github/
 │   └── plugin/
 │       └── marketplace.json

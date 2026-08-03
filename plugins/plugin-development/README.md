@@ -7,7 +7,7 @@ This plugin makes an agent self-sufficient at plugin authoring. It documents the
 ## Install
 
 ```bash
-copilot marketplace add <owner>/<repo>
+copilot plugin marketplace add Defiect/copilot-plugin-dev
 copilot plugin install plugin-development
 ```
 

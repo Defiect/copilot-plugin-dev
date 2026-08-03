@@ -3,7 +3,7 @@
   "description": "Build, validate, test, and publish GitHub Copilot CLI plugins. Covers plugin.json manifests, agent skills, custom agents, hooks, MCP and LSP servers, and plugin marketplaces.",
   "version": "1.0.0",
   "author": {
-    "name": "Copilot Dev Marketplace Maintainers"
+    "name": "Defiect"
   },
   "license": "MIT",
   "category": "development",

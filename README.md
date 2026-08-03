@@ -1,4 +1,4 @@
-# Copilot Dev Marketplace
+# copilot-plugin-dev
 
 A [GitHub Copilot CLI](https://docs.github.com/en/copilot/how-tos/use-copilot-agents/use-copilot-cli) plugin marketplace for building Copilot CLI extensions.
 
@@ -7,7 +7,7 @@ Copilot CLI ships no built-in guidance for authoring plugins. This marketplace f
 ## Install
 
 ```bash
-copilot marketplace add <owner>/<repo>
+copilot plugin marketplace add Defiect/copilot-plugin-dev
 copilot plugin install plugin-development
 ```
 
