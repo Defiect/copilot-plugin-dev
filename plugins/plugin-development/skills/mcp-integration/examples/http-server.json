@@ -1,0 +1,12 @@
+{
+  "mcpServers": {
+    "plugin-docs-http": {
+      "type": "http",
+      "url": "https://mcp.example.com/mcp",
+      "headers": {
+        "Authorization": "Bearer ${PLUGIN_DOCS_TOKEN}"
+      },
+      "tools": ["search", "get_document"]
+    }
+  }
+}

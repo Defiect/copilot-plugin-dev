@@ -1,0 +1,67 @@
+{
+  "version": 1,
+  "disableAllHooks": false,
+  "hooks": {
+    "sessionStart": [
+      {
+        "type": "command",
+        "bash": "python3 \"${PLUGIN_ROOT}/skills/hook-development/examples/session-context.py\"",
+        "powershell": "python \"${PLUGIN_ROOT}/skills/hook-development/examples/session-context.py\"",
+        "timeoutSec": 5
+      },
+      {
+        "type": "prompt",
+        "prompt": "Before starting, inspect the repository instructions and keep hook output quiet unless action is required."
+      }
+    ],
+    "userPromptSubmitted": [
+      {
+        "type": "command",
+        "bash": "python3 \"${PLUGIN_ROOT}/skills/hook-development/examples/audit-log.py\"",
+        "powershell": "python \"${PLUGIN_ROOT}/skills/hook-development/examples/audit-log.py\"",
+        "timeoutSec": 3
+      }
+    ],
+    "preToolUse": [
+      {
+        "type": "command",
+        "matcher": "bash|powershell",
+        "bash": "python3 \"${PLUGIN_ROOT}/skills/hook-development/examples/block-dangerous-commands.py\"",
+        "powershell": "python \"${PLUGIN_ROOT}/skills/hook-development/examples/block-dangerous-commands.py\"",
+        "timeoutSec": 5
+      }
+    ],
+    "postToolUse": [
+      {
+        "type": "command",
+        "matcher": "edit|create|apply_patch|str_replace_editor",
+        "bash": "python3 \"${PLUGIN_ROOT}/skills/hook-development/examples/format-on-edit.py\"",
+        "powershell": "python \"${PLUGIN_ROOT}/skills/hook-development/examples/format-on-edit.py\"",
+        "timeoutSec": 30
+      }
+    ],
+    "permissionRequest": [
+      {
+        "type": "http",
+        "matcher": "bash|powershell|edit|create|apply_patch",
+        "url": "https://hooks.example.com/copilot/permission-request",
+        "headers": {
+          "Authorization": "Bearer ${HOOK_POLICY_TOKEN}",
+          "X-Copilot-Hook": "permissionRequest"
+        },
+        "allowedEnvVars": [
+          "HOOK_POLICY_TOKEN"
+        ],
+        "timeoutSec": 5
+      }
+    ],
+    "notification": [
+      {
+        "type": "http",
+        "matcher": "agent_completed|permission_prompt",
+        "url": "https://hooks.example.com/copilot/notification",
+        "timeoutSec": 5
+      }
+    ]
+  }
+}

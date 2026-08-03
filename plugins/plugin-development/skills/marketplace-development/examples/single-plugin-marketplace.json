@@ -1,0 +1,30 @@
+{
+  "name": "single-plugin-marketplace",
+  "owner": {
+    "name": "Example Team",
+    "email": "plugins@example.com"
+  },
+  "metadata": {
+    "description": "Marketplace for one Copilot CLI plugin stored at the repository root.",
+    "version": "1.0.0"
+  },
+  "plugins": [
+    {
+      "name": "release-helper",
+      "description": "Adds release planning and verification helpers for Example Team repositories.",
+      "version": "1.0.0",
+      "author": {
+        "name": "Example Team",
+        "email": "plugins@example.com"
+      },
+      "license": "MIT",
+      "keywords": [
+        "release",
+        "verification",
+        "copilot-cli"
+      ],
+      "category": "development",
+      "source": "."
+    }
+  ]
+}

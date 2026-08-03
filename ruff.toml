@@ -1,0 +1,47 @@
+# Ruff configuration for the plugin-development validator and scaffolder scripts.
+#
+# These scripts are standalone: each one is designed to be copied out of its skill
+# directory and run on its own with nothing but the Python standard library. That
+# constraint shapes several choices below.
+
+line-length = 120
+target-version = "py310"
+
+[lint]
+select = [
+    "E",    # pycodestyle errors
+    "F",    # pyflakes
+    "W",    # pycodestyle warnings
+    "I",    # isort
+    "UP",   # pyupgrade
+    "B",    # flake8-bugbear
+    "C4",   # flake8-comprehensions
+    "SIM",  # flake8-simplify
+    "RUF",  # ruff-specific
+    "DTZ",  # flake8-datetimez
+    "BLE",  # flake8-blind-except
+    "TRY",  # tryceratops
+    "ARG",  # flake8-unused-arguments
+    "PTH",  # flake8-use-pathlib
+    "N",    # pep8-naming
+    "PIE",  # flake8-pie
+    "RET",  # flake8-return
+]
+
+ignore = [
+    # Validators report problems to users as prose. Inlining the message at the raise
+    # site keeps the text next to the condition that produced it, which matters more
+    # here than defining an exception class per failure mode.
+    "TRY003",
+    # Duplicated across standalone scripts by design: each script must run after being
+    # copied out of its skill directory, so shared helpers cannot be imported.
+    "TRY301",
+]
+
+[lint.per-file-ignores]
+# Scaffolders embed file templates as module-level string constants. Those templates
+# legitimately exceed the line limit because wrapping them would change the emitted file.
+"**/init_*.py" = ["E501"]
+
+[format]
+docstring-code-format = true

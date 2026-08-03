@@ -1,0 +1,46 @@
+{
+  "name": "example-copilot-marketplace",
+  "owner": {
+    "name": "Example Platform",
+    "email": "platform@example.com"
+  },
+  "metadata": {
+    "description": "Curated Copilot CLI plugins for Example Platform developers.",
+    "version": "1.4.0",
+    "pluginRoot": "plugins"
+  },
+  "plugins": [
+    {
+      "name": "frontend-workflow",
+      "description": "Adds frontend build, test, and UI review workflows for Example web apps.",
+      "version": "1.2.0",
+      "author": {
+        "name": "Example Platform"
+      },
+      "license": "MIT",
+      "keywords": [
+        "frontend",
+        "testing",
+        "review"
+      ],
+      "category": "development",
+      "source": "./plugins/frontend-workflow"
+    },
+    {
+      "name": "service-operations",
+      "description": "Adds incident triage, deployment, and service diagnostics for Example services.",
+      "version": "1.4.0",
+      "author": {
+        "name": "Example Platform"
+      },
+      "license": "MIT",
+      "keywords": [
+        "operations",
+        "deployments",
+        "incidents"
+      ],
+      "category": "operations",
+      "source": "./plugins/service-operations"
+    }
+  ]
+}

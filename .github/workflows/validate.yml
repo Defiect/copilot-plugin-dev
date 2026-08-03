@@ -1,0 +1,117 @@
+name: validate
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+env:
+  RUFF_VERSION: "0.16.1"
+  TY_VERSION: "0.0.65"
+
+jobs:
+  validators:
+    name: validators (py${{ matrix.python-version }}, pyyaml=${{ matrix.pyyaml }})
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        # The scripts must work on the oldest supported interpreter and on current
+        # Python, both with PyYAML available and using the built-in fallback parser.
+        python-version: ["3.10", "3.13"]
+        pyyaml: [true, false]
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python-version }}
+
+      - name: Install PyYAML
+        if: matrix.pyyaml
+        run: python -m pip install --disable-pip-version-check "PyYAML==6.0.3"
+
+      - name: Confirm PyYAML is absent
+        if: ${{ !matrix.pyyaml }}
+        run: |
+          if python -c "import yaml" 2>/dev/null; then
+            echo "PyYAML is unexpectedly installed; the fallback parser would not be exercised." >&2
+            exit 1
+          fi
+          echo "PyYAML absent - fallback frontmatter parser will be exercised."
+
+      - name: Run all validators
+        run: ./scripts/validate-all.sh
+
+  lint:
+    name: ruff
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.13"
+
+      - name: Install ruff
+        run: python -m pip install --disable-pip-version-check "ruff==${RUFF_VERSION}"
+
+      - name: Lint
+        run: ruff check plugins/ --output-format github
+
+      - name: Check formatting
+        run: ruff format --check --diff plugins/
+
+  types:
+    name: ty
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.13"
+
+      - name: Install ty and typing dependencies
+        run: |
+          python -m pip install --disable-pip-version-check \
+            "ty==${TY_VERSION}" \
+            "PyYAML==6.0.3" \
+            "types-PyYAML"
+
+      - name: Type check
+        run: ty check plugins/
+
+  shell:
+    name: shellcheck
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Run shellcheck
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y -qq shellcheck
+          find . -name '*.sh' -not -path './.git/*' -print0 \
+            | xargs -0 --no-run-if-empty shellcheck --severity=warning
+
+  json:
+    name: json syntax
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Validate every JSON file parses
+        run: |
+          status=0
+          while IFS= read -r -d '' file; do
+            if ! python3 -c "import json,sys; json.load(open(sys.argv[1]))" "$file"; then
+              echo "::error file=$file::invalid JSON"
+              status=1
+            fi
+          done < <(find . -name '*.json' -not -path './.git/*' -not -path '*/.ruff_cache/*' -print0)
+          exit $status

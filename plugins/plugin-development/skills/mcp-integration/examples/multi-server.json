@@ -1,0 +1,30 @@
+{
+  "mcpServers": {
+    "plugin-local-index": {
+      "type": "stdio",
+      "command": "python3",
+      "args": ["${PLUGIN_ROOT}/servers/index_mcp.py", "--data", "${COPILOT_PLUGIN_DATA}/index"],
+      "env": {
+        "INDEX_MODE": "readonly"
+      },
+      "tools": ["search_index", "get_index_document"]
+    },
+    "plugin-docs-http": {
+      "type": "http",
+      "url": "https://mcp.example.com/mcp",
+      "headers": {
+        "Authorization": "Bearer ${PLUGIN_DOCS_TOKEN}",
+        "X-Workspace": "${PLUGIN_DOCS_WORKSPACE}"
+      },
+      "tools": ["search", "get_document"]
+    },
+    "plugin-events-sse": {
+      "type": "sse",
+      "url": "https://events.example.com/sse",
+      "headers": {
+        "X-API-Key": "${PLUGIN_EVENTS_API_KEY}"
+      },
+      "tools": ["list_events"]
+    }
+  }
+}

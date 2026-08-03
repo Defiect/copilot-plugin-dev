@@ -1,0 +1,52 @@
+{
+  "name": "external-copilot-marketplace",
+  "owner": {
+    "name": "Example Curators",
+    "email": "curators@example.com"
+  },
+  "metadata": {
+    "description": "Curated external Copilot CLI plugins pinned to releases or audited commits.",
+    "version": "2.0.0"
+  },
+  "plugins": [
+    {
+      "name": "review-helper",
+      "description": "Adds review agents and skills for Example organization code reviews.",
+      "version": "2.3.0",
+      "license": "MIT",
+      "category": "development",
+      "source": {
+        "source": "github",
+        "repo": "example/review-helper",
+        "ref": "v2.3.0",
+        "path": "."
+      }
+    },
+    {
+      "name": "deployment-helper",
+      "description": "Adds release checklist and deployment verification skills for Example services.",
+      "version": "1.8.1",
+      "license": "Apache-2.0",
+      "category": "operations",
+      "source": {
+        "source": "github",
+        "repo": "example/deployment-helper",
+        "ref": "v1.8.1",
+        "path": "plugins/deployment-helper"
+      }
+    },
+    {
+      "name": "audited-regulated-tools",
+      "description": "Pins audited Copilot CLI scripts and skills for regulated environments.",
+      "version": "1.0.3",
+      "license": "MIT",
+      "category": "security",
+      "source": {
+        "source": "github",
+        "repo": "example/regulated-tools",
+        "sha": "a94a8fe5ccb19ba61c4c0873d391e987982fbbd3",
+        "path": "plugins/audited-regulated-tools"
+      }
+    }
+  ]
+}
